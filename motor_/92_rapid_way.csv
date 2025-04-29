@@ -1,0 +1,4 @@
+,Unnamed: 0.1,Unnamed: 0,index,Datetime,Longitude,Latitude,SPEED,delta_time,position1,position2,road_one,road_two,road_two_type,road_one_type
+207890,207890,207890,0,2023-07-19 16:46:46,117.2016205,39.1736341,0.0,1.0,1.0,1.0,西青道,西青道,trunk,trunk
+207891,207891,207891,1,2023-07-19 16:46:47,117.2016205,39.1736341,0.1,1.0,1.0,1.0,西青道,西青道,trunk,trunk
+207892,207892,207892,2,2023-07-19 16:46:48,117.2016205,39.1736341,0.0,1.0,1.0,1.0,西青道,西青道,trunk,trunk
