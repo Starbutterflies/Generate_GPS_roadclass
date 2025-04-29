@@ -1,4 +1,4 @@
-# Generate_GPS_roadclass
+# Generate_GPS_roadclass  
 ---  
 ## 代码总介绍  
 实现的功能非常简单，就是给出一个84坐标系的**GPS文件**，返回每一个点对应的**道路信息**。  
@@ -8,6 +8,49 @@
 ![image](https://github.com/user-attachments/assets/d33510a4-91e0-4439-97a1-862a40568eeb)  
 虽然功能简单，而且很有可能有一些我并不知道的技术路线（比如Arcgis pro/ arcgis等），可以更好的解决这样的问题。但是这是我在研一时的一次尝试，所以我还是打算把它上传到github上。  
 ## 核心思路  
-![image](https://github.com/user-attachments/assets/8166af2b-cb26-49c5-991e-d054f08a2771)
-## 主要模块：
-- ****
+![image](https://github.com/user-attachments/assets/8166af2b-cb26-49c5-991e-d054f08a2771)  
+## 主要模块：  
+### utils.py  
+  模块里主要是一些工具函数。  
+  #### 主要函数  
+  - **`judge_begin_end`**  
+  主要是用来处理数据。将数据切割成速度首尾都是0的数据。  
+  **输入:**  
+    data：需要进行判定的原始数据  
+  **输出:**  
+    data：如果data首尾速度都是0，那么就不进行任何处理。否则，那就向里面搜索速度为0的第一个值，并将那些不为0的值删去。  
+    
+  - **`wgs84_to_gcj02`**  
+  用来将wgs84转化为gcj02的函数，基于pyproj包，因为速度太慢已经弃用  
+  **输入:**  
+    latitude：维度84  
+    longitude：经度84  
+  **输出:**  
+    latitude：维度02  
+    longitude：经度02  
+
+  - **`wgs84togcj02、transformlat、transformlng`**  
+  用来将wgs84转化为gcj02的函数，基于一些计算，破解了加密算法，比调包要更快。  
+  **输入:**  
+    latitude：维度84  
+    longitude：经度84  
+  **输出:**  
+    latitude：维度02  
+    longitude：经度02
+
+### main.py  
+  模块里是用来切割数据的类。  
+  #### 主要类  
+  - **`trouble_dealer`**  
+  用来将抽取点获取地理位置  
+  ##### 主要方法  
+  - **read_data**  
+  单纯的用于读取数据。并合适有没有将数据完全读进去。如果完全读进去了，就self.bool = True,否则就为False。  
+  - **rename_data**  
+  处理时间戳数据。因为部分数据是202010071201这样的形式，而有一些却是2022-12-16 17:39:11.000这样的形式因此需要处理为统一的格式。这里只保留了一天的时间，用于判断时间戳有没有断裂。  
+  - **judge_deal_data**  
+    ①用于看数据是不是以0开头。是不是以0结尾  
+    ②将Longitude和Latitude结尾的E和N去掉  
+    ③检查时间戳是否连续和完整  
+  - **split_interpolate_data**  
+  按照时间戳切割数据。将大段的时间切成连续的小段。  
