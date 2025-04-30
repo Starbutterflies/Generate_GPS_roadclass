@@ -10,7 +10,7 @@
 ## 核心思路  
 ![image](https://github.com/user-attachments/assets/8166af2b-cb26-49c5-991e-d054f08a2771)  
 ## 主要模块：  
-### utils.py  
+### 1.utils.py  
   模块里主要是一些工具函数。  
   #### 主要函数  
   - **`judge_begin_end`**  
@@ -38,7 +38,7 @@
     latitude：维度02  
     longitude：经度02
 
-### main.py  
+### 2.main.py  
   模块里是用来切割数据的类。  
   #### 主要类  
   - **`trouble_dealer`**  
@@ -57,7 +57,7 @@
   - **save_data**
   将切割后的数据保存。
 
-### get_position.py  
+### 3.get_position.py  
   模块中是用来获取位置的类。  
   #### 主要类  
   - **`generate_position`**  
@@ -76,7 +76,7 @@
   - **`job_lib_run`**  
   多进程运行
 
-### deal_data.py  
+### 4.deal_data.py  
   模块中主要是用来处理位置信息数据的函数。  
   - **`read_position_data`**  
   输入 => 位置信息的路径  
@@ -106,3 +106,21 @@
   param info_df => 新的位置数据  
   返回：  
   终极的填补数据  
+### 5.split_and_classify_data.py  
+  这个模块是一个施工到一半的模块，很多功能没有良好的建立和实现。它的作用是将不同的驾驶分割为不同道路的运行：  
+  - **`classify_data`**  
+  函数作用：将不同种类的数据添加到df中  
+  total_df: 实际上应该是total_info_df这里是拼写错误。是读取的原始数据info_df  
+  real_df: 道路信息。就是完成填补之后数据的内容。
+
+  - **`split_and_classify_data`**  
+  函数作用：切割数据，将数据按照cpu数等量切割成几份。  
+  real_road_path: 数据的路径  
+  - **`concat_new_position`**  
+  结合两个total_info_csv，来自不同的osm数据。  
+  - **`return_to_origin`**  
+  重新切割后的，连续时序的，并且分好类的数据集，并将数据保存在文件中。  
+  path => 读取数据的路径  
+
+  - **`time_split`**  
+    这是未完成的功能。
