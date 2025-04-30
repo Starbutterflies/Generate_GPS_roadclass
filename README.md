@@ -54,3 +54,55 @@
     ③检查时间戳是否连续和完整  
   - **split_interpolate_data**  
   按照时间戳切割数据。将大段的时间切成连续的小段。  
+  - **save_data**
+  将切割后的数据保存。
+
+### get_position.py  
+  模块中是用来获取位置的类。  
+  #### 主要类  
+  - **`generate_position`**  
+  用来生成位置。使用需要提供你的高德API key。获取网站：https://lbs.amap.com/  
+  ##### 主要方法  
+  - **`init`**  
+  将切割后的数据保存。  
+  path => 用来添加位置的数据路径。  
+  total_point => 取点的数量。注意！total_point//16的意思是用来给不同cpu的分配数据的！  
+  - **`request_data`**  
+  用来向api请求数据，是多进程请求数据的。  
+  df => 用来请求数据的原始df  
+  i => 保存文件的序号  
+  以下是一个保存数据的示例：  
+  ![image](https://github.com/user-attachments/assets/e1bbf736-f3c8-46c9-b56f-8d71b44411ef)
+  - **`job_lib_run`**  
+  多进程运行
+
+### deal_data.py  
+  模块中主要是用来处理位置信息数据的函数。  
+  - **`read_position_data`**  
+  输入 => 位置信息的路径  
+  输出 => 读取后的数据，未填补空值。
+
+  - **`read_origin_data`**  
+  输入：原始数据路径  
+  输出：拼接好的df  
+  - **`align_point`**  
+  输入：  
+  total_df => 原始的df  
+  total_point => 切分的点数，用来和上文中的那个玩意配合。  
+  position_data => 获取到的位置信息df  
+  输出：  
+  对齐后的，包括周围道路信息的df  
+  - **`fill_na`**  
+  这是一个矫正函数，用来看前后是不是一样的信息。  
+  输入：merged_df => 已经拼接好的一个df。  
+  如果前后道路名字是一样的，那么就将其间的道路信息填充为前后一样的名字。  
+  - **`fill`**  
+  这个是一个填补函数，将第一级和第二级数据的信息相互填补。  
+  - **`generate_new_position`**  
+  再次调用api，访问前后名字不一样数据的所有点。  
+  - **`fill_empty`**  
+  参数:  
+  fill_na_df => 需填补的数据  
+  param info_df => 新的位置数据  
+  返回：  
+  终极的填补数据  
